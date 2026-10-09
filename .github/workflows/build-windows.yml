@@ -1,0 +1,43 @@
+name: Build Windows installer
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout KESA Messenger source
+        uses: actions/checkout@v4
+        with:
+          repository: KilluaClicker/KesaMessenger
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Windows installer
+        run: npm run build:win
+      - name: Check installer
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -Path "release" -Filter "*.exe" -File
+          if (-not $files) { throw "No EXE installer was produced in release/" }
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: KESA-Messenger-Windows
+          path: release/*.exe
+          if-no-files-found: error
+      - name: Publish installer release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.1
+          name: KESA Messenger 1.0.1
+          body: Windows installer for KESA Messenger beta.
+          files: release/*.exe
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
