@@ -379,8 +379,8 @@ h1 {
 
 .hero-glow {
   position: absolute;
-  width: 480px;
-  height: 480px;
+  width: min(480px, 100%);
+  aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, .13) 0%, rgba(255, 255, 255, .04) 38%, transparent 68%);
   filter: blur(8px);
@@ -400,14 +400,14 @@ h1 {
 }
 
 .orbit-1 {
-  width: 420px;
-  height: 420px;
+  width: min(420px, 90%);
+  aspect-ratio: 1;
   animation: orbitSpin 60s linear infinite;
 }
 
 .orbit-2 {
-  width: 500px;
-  height: 500px;
+  width: min(500px, 100%);
+  aspect-ratio: 1;
   border-style: solid;
   border-color: rgba(255, 255, 255, .05);
   animation: orbitSpin 90s linear infinite reverse;
@@ -1137,6 +1137,13 @@ h1 {
   .faq-a p { font-size: 13.5px; padding-right: 24px; }
   .footer { margin-top: 84px; }
   .footer-inner { padding: 34px 18px 40px; }
+}
+
+@media (max-width: 359px) {
+  h1 { font-size: 12.5vw; }
+  .nav-dl span { display: none; }
+  .nav-dl { width: 40px; padding: 0; }
+  .hero-meta { font-size: 10.5px; gap: 7px 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
